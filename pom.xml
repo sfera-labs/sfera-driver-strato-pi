@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>cc.sferalabs.sfera.drivers</groupId>
-	<artifactId>strato-pi</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>stratopi</artifactId>
+	<version>1.0.0</version>
 
-	<name>StratoPi</name>
+	<name>Strato Pi</name>
 	<description>Driver for Strato Pi</description>
 
 	<properties>
@@ -14,7 +14,22 @@
 		<sfera-version>0.1.0</sfera-version>
 	</properties>
 
+	<distributionManagement>
+		<repository>
+			<id>sferalabs.cc</id>
+			<url>scp://sferalabs.cc/var/www/sfera.sferalabs/mvn-repo/</url>
+		</repository>
+	</distributionManagement>
+
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.3</version>
+			</extension>
+		</extensions>
+
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -90,6 +105,12 @@
 						<taglet>
 							<tagletClass>cc.sferalabs.sfera.doc.taglets.EventIdTaglet</tagletClass>
 						</taglet>
+						<taglet>
+							<tagletClass>cc.sferalabs.sfera.doc.taglets.EventValueTaglet</tagletClass>
+						</taglet>
+						<taglet>
+							<tagletClass>cc.sferalabs.sfera.doc.taglets.EventSimpleValueTaglet</tagletClass>
+						</taglet>
 					</taglets>
 					<tagletArtifact>
 						<groupId>cc.sferalabs.sfera</groupId>
@@ -114,6 +135,11 @@
 			<artifactId>sfera</artifactId>
 			<version>${sfera-version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>cc.sferalabs.libs</groupId>
+			<artifactId>stratopi</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 </project>

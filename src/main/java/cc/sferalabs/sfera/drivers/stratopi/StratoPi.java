@@ -1,15 +1,15 @@
-package cc.sferalabs.sfera.drivers.strato;
+package cc.sferalabs.sfera.drivers.stratopi;
 
 import java.io.IOException;
 
 import cc.sferalabs.sfera.core.Configuration;
 import cc.sferalabs.sfera.drivers.Driver;
-import cc.sferalabs.sfera.drivers.strato.events.BatteryStratoPiEvent;
-import cc.sferalabs.sfera.drivers.strato.events.BuzzerStratoPiEvent;
-import cc.sferalabs.sfera.drivers.strato.events.ShutdownStratoPiEvent;
-import cc.sferalabs.sfera.drivers.strato.events.WatchdogEnableStratoPiEvent;
-import cc.sferalabs.sfera.drivers.strato.events.WatchdogHeartbeatStratoPiEvent;
-import cc.sferalabs.sfera.drivers.strato.events.WatchdogTimeoutStratoPiEvent;
+import cc.sferalabs.sfera.drivers.stratopi.events.BatteryStratoPiEvent;
+import cc.sferalabs.sfera.drivers.stratopi.events.BuzzerStratoPiEvent;
+import cc.sferalabs.sfera.drivers.stratopi.events.ShutdownStratoPiEvent;
+import cc.sferalabs.sfera.drivers.stratopi.events.WatchdogEnableStratoPiEvent;
+import cc.sferalabs.sfera.drivers.stratopi.events.WatchdogHeartbeatStratoPiEvent;
+import cc.sferalabs.sfera.drivers.stratopi.events.WatchdogTimeoutStratoPiEvent;
 import cc.sferalabs.sfera.events.Bus;
 
 /**
@@ -21,7 +21,7 @@ import cc.sferalabs.sfera.events.Bus;
  */
 public class StratoPi extends Driver {
 
-	private cc.sferalabs.libs.strato.StratoPi strato;
+	private cc.sferalabs.libs.stratopi.StratoPi strato;
 
 	public StratoPi(String id) {
 		super(id);
@@ -30,17 +30,11 @@ public class StratoPi extends Driver {
 	@Override
 	protected boolean onInit(Configuration config) throws InterruptedException {
 		try {
-			strato = new cc.sferalabs.libs.strato.StratoPi();
+			strato = new cc.sferalabs.libs.stratopi.StratoPi();
 		} catch (IOException e) {
 			log.error("Error initializing Strato Pi", e);
 			return false;
 		}
-
-		// TODO remove
-		// strato.setWatchdog(config.get("watchdog", false));
-		// strato.setPowerFailureShutdownMinutes(config.get("power_failure_shutdown_minutes",
-		// -1));
-		// strato.setQuiet(config.get("quiet", false));
 
 		return true;
 	}
@@ -65,21 +59,28 @@ public class StratoPi extends Driver {
 
 	@Override
 	protected void onQuit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	/**
+	 * Enables or disables the hardware watchdog.
+	 * 
 	 * @param enabled
+	 *            {@code true} to enable, {@code false} to disable
 	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	public void setWatchdog(boolean enabled) throws IOException {
 		strato.setWatchdogEnable(enabled);
 	}
 
 	/**
+	 * Sets the heartbeat pin to the specified value
+	 * 
 	 * @param high
+	 *            {@code true} for high, {@code false} for low
 	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	public void setHeartbeat(Boolean high) throws IOException {
 		if (high == null) {
@@ -90,26 +91,41 @@ public class StratoPi extends Driver {
 	}
 
 	/**
+	 * requests tio initiate the shutdown cycle.
+	 * 
 	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	public void shutdown() throws IOException {
 		strato.shutdown();
 	}
 
 	/**
+	 * Sets the buzzer on or off
+	 * 
 	 * @param on
+	 *            {@code true} to set the buzzer on, {@code false} to set it off
 	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	public void setBuzzer(boolean on) throws IOException {
 		strato.setBuzzer(on);
 	}
 
 	/**
+	 * Plays the specified number of beeps from the buzzer with the specified
+	 * intervals.
+	 * 
 	 * @param on
+	 *            time in milliseconds the buzzer is on
 	 * @param off
+	 *            time in milliseconds the buzzer is off
 	 * @param times
+	 *            number of beeps (on/off cycles)
 	 * @throws IOException
+	 *             if an I/O error occurs
 	 * @throws InterruptedException
+	 *             if the current thread is interrupted
 	 */
 	public void beep(int on, int off, int times) throws IOException, InterruptedException {
 		for (int i = 1; i <= times; i++) {
