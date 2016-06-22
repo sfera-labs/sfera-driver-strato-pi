@@ -1,15 +1,15 @@
-package cc.sferalabs.sfera.drivers.stratopi;
+package cc.sferalabs.sfera.drivers.strato_pi;
 
 import java.io.IOException;
 
 import cc.sferalabs.sfera.core.Configuration;
 import cc.sferalabs.sfera.drivers.Driver;
-import cc.sferalabs.sfera.drivers.stratopi.events.BatteryStratoPiEvent;
-import cc.sferalabs.sfera.drivers.stratopi.events.BuzzerStratoPiEvent;
-import cc.sferalabs.sfera.drivers.stratopi.events.ShutdownStratoPiEvent;
-import cc.sferalabs.sfera.drivers.stratopi.events.WatchdogEnableStratoPiEvent;
-import cc.sferalabs.sfera.drivers.stratopi.events.WatchdogHeartbeatStratoPiEvent;
-import cc.sferalabs.sfera.drivers.stratopi.events.WatchdogTimeoutStratoPiEvent;
+import cc.sferalabs.sfera.drivers.strato_pi.events.BatteryStratoPiEvent;
+import cc.sferalabs.sfera.drivers.strato_pi.events.BuzzerStratoPiEvent;
+import cc.sferalabs.sfera.drivers.strato_pi.events.ShutdownStratoPiEvent;
+import cc.sferalabs.sfera.drivers.strato_pi.events.WatchdogEnableStratoPiEvent;
+import cc.sferalabs.sfera.drivers.strato_pi.events.WatchdogHeartbeatStratoPiEvent;
+import cc.sferalabs.sfera.drivers.strato_pi.events.WatchdogTimeoutStratoPiEvent;
 import cc.sferalabs.sfera.events.Bus;
 
 /**
@@ -21,7 +21,7 @@ import cc.sferalabs.sfera.events.Bus;
  */
 public class StratoPi extends Driver {
 
-	private cc.sferalabs.libs.stratopi.StratoPi strato;
+	private cc.sferalabs.libs.strato_pi.StratoPi strato;
 
 	public StratoPi(String id) {
 		super(id);
@@ -30,7 +30,7 @@ public class StratoPi extends Driver {
 	@Override
 	protected boolean onInit(Configuration config) throws InterruptedException {
 		try {
-			strato = new cc.sferalabs.libs.stratopi.StratoPi();
+			strato = new cc.sferalabs.libs.strato_pi.StratoPi();
 		} catch (IOException e) {
 			log.error("Error initializing Strato Pi", e);
 			return false;

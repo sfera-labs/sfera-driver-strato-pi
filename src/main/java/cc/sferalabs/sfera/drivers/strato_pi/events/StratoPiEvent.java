@@ -1,4 +1,4 @@
-package cc.sferalabs.sfera.drivers.stratopi.events;
+package cc.sferalabs.sfera.drivers.strato_pi.events;
 
 import cc.sferalabs.sfera.events.Event;
 
