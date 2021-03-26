@@ -45,6 +45,8 @@ public class StratoPi extends Driver {
 
 	private cc.sferalabs.libs.strato_pi.StratoPi strato;
 
+	private int pollInterval = 100;
+
 	public StratoPi(String id) {
 		super(id);
 	}
@@ -58,6 +60,8 @@ public class StratoPi extends Driver {
 			return false;
 		}
 
+		pollInterval = config.get("pollInterval", pollInterval);
+
 		return true;
 	}
 
@@ -65,13 +69,12 @@ public class StratoPi extends Driver {
 	protected boolean loop() throws InterruptedException {
 		try {
 			Bus.postIfChanged(new WatchdogEnableStratoPiEvent(this, strato.getWatchdogEnable()));
-			Bus.postIfChanged(
-					new WatchdogHeartbeatStratoPiEvent(this, strato.getWatchdogHeartbeat()));
+			Bus.postIfChanged(new WatchdogHeartbeatStratoPiEvent(this, strato.getWatchdogHeartbeat()));
 			Bus.postIfChanged(new WatchdogTimeoutStratoPiEvent(this, strato.getWatchdogTimeout()));
 			Bus.postIfChanged(new ShutdownStratoPiEvent(this, strato.getShutdown()));
 			Bus.postIfChanged(new BuzzerStratoPiEvent(this, strato.getBuzzer()));
 			Bus.postIfChanged(new BatteryStratoPiEvent(this, strato.getBattery()));
-			Thread.sleep(100);
+			Thread.sleep(pollInterval);
 			return true;
 		} catch (IOException | IllegalStateException e) {
 			log.error("Loop error", e);
@@ -100,7 +103,8 @@ public class StratoPi extends Driver {
 	 * Sets the heartbeat pin to the specified value
 	 * 
 	 * @param high
-	 *            {@code true} for high, {@code false} for low
+	 *            {@code true} for high, {@code false} for low, {@code null} for
+	 *            inverting the current value
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
